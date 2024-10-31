@@ -8,12 +8,17 @@ on:
         default: 'https://github.com/foxglove/nuscenes2mcap.git'  # Default repo with Dockerfile
 
 jobs:
-  pull_and_package:
+  build_and_upload:
     runs-on: ubuntu-latest
 
     steps:
     - name: Checkout repository
       uses: actions/checkout@v4
+
+    - name: Clean up Docker to free space
+      run: |
+          docker system prune -a -f
+          docker volume prune -f
 
     - name: Clone git repo and build docker image
       run: |

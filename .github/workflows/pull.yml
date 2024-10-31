@@ -15,12 +15,17 @@ on:
         - linux/arm/v7
         
 jobs:
-  pull_and_package:
+  pull_and_upload:
     runs-on: ubuntu-latest
 
     steps:
     - name: Checkout repository
       uses: actions/checkout@v4
+
+    - name: Clean up Docker to free space
+      run: |
+          docker system prune -a -f
+          docker volume prune -f
 
     - name: Pull Docker Images
       run: |
