@@ -2,8 +2,12 @@ name: Build Docker Image By Git Repo
 on:
   workflow_dispatch:
     inputs:
+      free_space:
+        description: 'Free disk space before building'
+        type: boolean
+        default: false
       repo_url:
-        description: 'Fill git repo url with Dockerfile'
+        description: 'HTTP(S) git repo url with Dockerfile'
         required: true
         default: 'https://github.com/foxglove/nuscenes2mcap.git'  # Default repo with Dockerfile
 
@@ -16,6 +20,7 @@ jobs:
       uses: actions/checkout@v4
 
     - name: Free Disk Space (Ubuntu)
+      if: ${{ github.event.inputs.free_space == 'true' }}
       uses: jlumbroso/free-disk-space@main
       with:
         # this might remove tools that are actually needed,
